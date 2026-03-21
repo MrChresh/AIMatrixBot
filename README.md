@@ -61,12 +61,6 @@ OLLAMA_MODEL='qwen3.5:35b'
 # Whether to enable the think parameter
 OLLAMA_THINK=true
 
-# Maximal settable context
-MAX_CONTEXT=64000
-
-# Min context
-MIN_CONTEXT=8192
-
 # Set default additional context
 DEFAULT_CONTEXT=32000
 ```
