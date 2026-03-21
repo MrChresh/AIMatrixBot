@@ -1,6 +1,6 @@
-# Discord Bot for Ollama MCP Bridge
+# Matrix Bot for Ollama MCP Bridge
 
-This Discord bot integrates with the [ollama-mcp-bridge](https://github.com/jonigl/ollama-mcp-bridge) to enable communication between Discord and Ollama models using the MCP (Model Communication Protocol) standard. The bot uses **index.js** as its main entry point.
+This Matrix bot integrates with the [ollama-mcp-bridge](https://github.com/jonigl/ollama-mcp-bridge) to enable communication between Matrix and Ollama models using the MCP (Model Communication Protocol) standard. The bot uses **index.js** as its main entry point.
 
 
 ## Features
@@ -9,7 +9,7 @@ This Discord bot integrates with the [ollama-mcp-bridge](https://github.com/joni
 - May work directly with Ollama models (no bridge required)
 - Simple environment configuration
 - Supports Ollama models
-- Discord command interface for model interactions
+- Matrix text commands
 - Read text type files from attachments
 - Read image type files from attachments
 - Response streaming (will send every 1000 characters)
