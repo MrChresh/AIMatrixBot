@@ -28,7 +28,7 @@ This Discord bot integrates with the [ollama-mcp-bridge](https://github.com/joni
 1. Clone this repository:
    ```bash
    git clone https://github.com/MrChresh/AIMatrixBot.git
-   cd AIBot
+   cd AIMatrixBot
    ```
 
 2. Install dependencies:
