@@ -16,7 +16,7 @@ This Matrix bot integrates with the [ollama-mcp-bridge](https://github.com/jonig
 - Allowed users via allowed_users.json to prevent abuse
 - Chat history per user
 - Cancel command
-- In development MCP-bridge avaiailable: [llamacppMCPBridge](https://github.com/MrChresh/llamacppMCPBridge)
+- In development MCP-bridge available: [llamacppMCPBridge](https://github.com/MrChresh/llamacppMCPBridge)
 
 ## Prerequisites
 
