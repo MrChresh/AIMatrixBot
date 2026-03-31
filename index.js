@@ -1,6 +1,3 @@
-import clc from "cli-color";
-//import fs from "fs";
-import readline from "readline";
 import sdk, { ClientEvent, EventType, MsgType, RoomEvent } from "matrix-js-sdk";
 import { KnownMembership } from "matrix-js-sdk/lib/@types/membership.js";
 import 'dotenv/config'
