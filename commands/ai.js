@@ -15,7 +15,7 @@ export default {
         var context = Number(process.env.DEFAULT_CONTEXT);
         const messageAuthor = interaction.sender;
         const room = interaction.room;
-        var prompt = interaction.content.body.slice();
+        var prompt = interaction.content.body.slice(3);
         var images = [];
 
         /*var attachmentNames = [];
