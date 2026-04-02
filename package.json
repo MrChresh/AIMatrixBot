@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "dotenv": "^17.3.1",
-    "matrix-js-sdk": "^41.2.0-rc.0"
-  },
-  "type": "module"
+    "matrix-js-sdk": "^41.2.0"
+  }
 }

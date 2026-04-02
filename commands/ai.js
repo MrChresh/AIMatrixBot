@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import http from 'node:http'
+import * as http from 'node:http'
 //import { encode, decode } from 'node-base64-image';
 
 export default {
@@ -218,7 +218,7 @@ export default {
                     content: fullAssistantMessage
                 });
                 client.AIBot.requests[messageAuthor].splice(client.AIBot.requests[messageAuthor].indexOf(requestId));
-                client.sendTextMessage(room, req.statusCode + 'Request has been aborted.');
+                client.sendTextMessage(room,/* req.statusCode +*/ 'Request has been aborted.');
             });
 
             req.on('error', (e) => {

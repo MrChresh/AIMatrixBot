@@ -1,12 +1,15 @@
-import sdk, { ClientEvent, EventType, MsgType, RoomEvent } from "matrix-js-sdk";
-import { KnownMembership } from "matrix-js-sdk/lib/@types/membership.js";
+import sdk, { ClientEvent, RoomEvent  } from 'matrix-js-sdk';
+
+import { KnownMembership } from 'matrix-js-sdk/lib/@types/membership.js';
 import 'dotenv/config'
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import url from 'url';
+
 const globalfilename = fileURLToPath(import.meta.url);
 const globaldirname = path.dirname(globalfilename);
+
 
 var myHomeServer = process.env.MATRIX_HOME_SERVER;
 var myUserId = process.env.MATRIX_USER_ID;
@@ -16,7 +19,7 @@ var myAccessToken = process.env.MATRIX_TOKEN;
 var matrixClient = sdk.createClient({
     baseUrl: myHomeServer,
     accessToken: myAccessToken,
-    userId: myUserId,
+    userId: myUserId
 });
 
 // Data structures
@@ -41,7 +44,7 @@ matrixClient.on(ClientEvent.Sync, function (state, prevState, data) {
                         );
                         viewingRooms.push(viewingRoom);
                     } else {
-                        
+
                     }
                 } catch (e) {
                     console.log(e);
@@ -50,39 +53,46 @@ matrixClient.on(ClientEvent.Sync, function (state, prevState, data) {
             break;
     }
 });
-
+matrixClient.on(RoomEvent.MyMembership, function (room, membership, prevMembership) {
+    if (membership === KnownMembership.Invite) {
+        matrixClient.joinRoom(room.roomId).then(function () {
+            console.log("Auto-joined %s", room.roomId);
+        });
+    }
+});
 matrixClient.on(ClientEvent.Room, function () {
 
 });
 
 // print incoming messages.
-matrixClient.on(RoomEvent.Timeline,async function (event, room, toStartOfTimeline) {
+matrixClient.on(RoomEvent.Timeline, async function (event, room, toStartOfTimeline) {
     try {
+
         if (toStartOfTimeline) {
             return; // don't print paginated results
         }
         /*if (!viewingRoom || viewingRoom.roomId !== room?.roomId) {
             return; // not viewing a room or viewing the wrong room.
         }*/
-        console.log(event.event);
-        if (!viewingRooms || findRoom(event.event.room_id)?.roomId !== room?.roomId) {
+        let localEvent = event;
+
+        if (!viewingRooms || findRoom(localEvent.event.room_id)?.roomId !== room?.roomId) {
             return; // not viewing a room or viewing the wrong room.
         }
-        if(event.event.content.msgtype != 'm.text') {
+
+        if (localEvent.event.content.msgtype != 'm.text') {
             return;
         }
-        console.log(event.event.room_id);
-        if (event.event.sender != myUserId) {
+        console.log(localEvent.event.room_id);
+        if (localEvent.event.sender != myUserId) {
             matrixClient.commands.forEach(async (textcommand) => {
 
-
-
-                if(event.event.content.body.startsWith(`$${textcommand.data.name}`)) {
+                if (localEvent.event.content.body.startsWith(`$${textcommand.data.name}`)) {
                     console.log(textcommand);
 
-                    var interaction = event.event;
+                    var interaction = localEvent.event;
                     interaction.client = matrixClient;
-                    interaction.room = findRoom(event.event.room_id).roomId;
+                    interaction.room = findRoom(localEvent.event.room_id).roomId;
                     textcommand.execute(interaction);
                     //await matrixClient.sendTextMessage(findRoom(event.event.room_id).roomId, event.event.sender + ' you wrote "' + event.event.content.body.slice(textcommand.data.name.length + 2) + '"');
                 }
@@ -101,7 +111,7 @@ function findRoom(roomString) {
             console.log(returnViewingRoom.roomId);
         }
     });
-    
+
     return returnViewingRoom;
 }
 
@@ -125,9 +135,9 @@ matrixClient.startClient({ initialSyncLimit: numMessagesToShow }).then(async () 
     // Grab all the command folders from the commands directory you created earlier
     const foldersPath = path.join(globaldirname, 'commands');
     console.log(foldersPath)
-    const commandFolders = [''].concat(fs.readdirSync(foldersPath,{ withFileTypes: true })
-                            .filter(dirent => dirent.isDirectory())
-                            .map(dirent => dirent.name));
+    const commandFolders = [''].concat(fs.readdirSync(foldersPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name));
 
     for (const folder of commandFolders) {
         // Grab all the command files from the commands directory you created earlier
@@ -147,4 +157,3 @@ matrixClient.startClient({ initialSyncLimit: numMessagesToShow }).then(async () 
         }
     }
 });
-
