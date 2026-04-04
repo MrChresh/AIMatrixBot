@@ -10,7 +10,7 @@ export default {
     execute: async (interaction) => {
         const client = interaction.client;
         if (!client.AIBot.allowedUsers.includes(interaction.sender)) {
-            return client.sendTextMessage(interaction.room, 'You dont have access to this bot.');
+            return client.sendText(interaction.room, 'You dont have access to this bot.');
         }
         var context = Number(process.env.DEFAULT_CONTEXT);
         const messageAuthor = interaction.sender;
@@ -62,7 +62,7 @@ export default {
                 }
             }*/
             try {
-                await client.sendTextMessage(room, 'Prompt will be sent, it might take some time.');
+                await client.sendText(room, 'Prompt will be sent, it might take some time.');
                 //console.log(prompt);
             } catch(e) {
                 console.log(e);
@@ -166,7 +166,7 @@ export default {
                             messageContentThinking = messageContentThinking + thinking;
                             if (messageContentThinking.length > 1000) {
                                 //if (thinking.includes("\n") || messageContentThinking.length > 1900) {
-                                if (messageContentThinking) { client.sendTextMessage(room, messageContentThinking) };
+                                if (messageContentThinking) { client.sendText(room, messageContentThinking) };
                                 messageContentThinking = '';
                             }
                         }
@@ -174,9 +174,9 @@ export default {
 
 
                     if (messageContentThinking.length && content) {
-                        if (messageContentThinking) { client.sendTextMessage(room, messageContentThinking); }
+                        if (messageContentThinking) { client.sendText(room, messageContentThinking); }
                         messageContentThinking = '';
-                        client.sendTextMessage(room, '**Content:**');
+                        client.sendText(room, '**Content:**');
                     }
                     if (content) {
                         if (content.length) {
@@ -186,7 +186,7 @@ export default {
                             if (messageContent.length > 1000) {
                                 //if (content.includes("\n") || messageContent.length > 1900) {
 
-                                if (messageContent) { client.sendTextMessage(room, messageContent) };
+                                if (messageContent) { client.sendText(room, messageContent) };
 
                                 messageContent = '';
                             }
@@ -198,12 +198,12 @@ export default {
                 });
                 res.on('end', () => {
                     console.log(' No more data in response.');
-                    if (messageContent) { client.sendTextMessage(room, messageContent); }
+                    if (messageContent) { client.sendText(room, messageContent); }
                     client.AIBot.Messages[messageAuthor].push({
                         role: 'assistant',
                         content: fullAssistantMessage
                     });
-                    client.sendTextMessage(room, res.statusCode + ' No more data in response.');
+                    client.sendText(room, res.statusCode + ' No more data in response.');
                 });
                 res.on('finish', () => {
                     client.AIBot.requests[messageAuthor].splice(client.AIBot.requests[messageAuthor].indexOf(requestId));
@@ -212,18 +212,18 @@ export default {
 
             req.on('abort', () => {
                 console.log(`Request aborted.`);
-                if (messageContent) { client.sendTextMessage(room, messageContent); }
+                if (messageContent) { client.sendText(room, messageContent); }
                     client.AIBot.Messages[messageAuthor].push({
                     role: 'assistant',
                     content: fullAssistantMessage
                 });
                 client.AIBot.requests[messageAuthor].splice(client.AIBot.requests[messageAuthor].indexOf(requestId));
-                client.sendTextMessage(room,/* req.statusCode +*/ 'Request has been aborted.');
+                client.sendText(room,/* req.statusCode +*/ 'Request has been aborted.');
             });
 
             req.on('error', (e) => {
                 console.error(`An error or abort occured with the request.: ${e.message}`);
-                client.sendTextMessage(room, 'An error or abort occured with the request.');
+                client.sendText(room, 'An error or abort occured with the request.');
                 client.AIBot.requests[messageAuthor].splice(client.AIBot.requests[messageAuthor].indexOf(requestId));
             });
 
