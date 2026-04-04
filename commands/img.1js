@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import * as fs from 'fs';
-import { MsgType } from 'matrix-js-sdk';
 import * as child_process from 'child_process';
 /*
 You will need to edit this file except you have the exact same setup.
@@ -50,7 +49,7 @@ export default {
             var prc = child_process.spawn(process.env.PATH_TO_SD_CLI + '/sd-cli.exe', [
                 '--diffusion-model', process.env.PATH_TO_SD_CLI + '/' + 'qwen-image-2512-Q4_K_M.gguf',
                 '--vae', process.env.PATH_TO_SD_CLI + '/' + 'qwen_image_vae.safetensors',
-                '--llm', process.env.PATH_TO_SD_CLI + '/' + 'Qwen2.5-VL-7B-Instruct.f16.gguf',
+                '--llm', process.env.PATH_TO_SD_CLI + '/' + 'Qwen2.5-VL-7B-Instruct-abliterated.f16.gguf',
                 '-p', prompt,
                 '-n', negativePrompt,
                 '--output', process.env.PATH_TO_IMAGES + '/' + requestId + '.png',
@@ -89,17 +88,24 @@ export default {
 
             });
 
-            prc.on('close', function (code) {
+            prc.on('close', async function (code) {
                 console.log('process exit code ' + code);
                 if (code == 0) {
                     var filename = requestId + '.png';
                     let buffer = fs.readFileSync(process.env.PATH_TO_IMAGES + '/' + requestId + '.png');
-                    client.uploadContent(new Blob([buffer])).then(function (response) {
-                        client.sendMessage(room, {
-                            msgtype: MsgType.Image,
-                            body: filename,
-                            url: response.content_uri,
-                        });
+                    const encrypted = await client.crypto.encryptMedia(buffer);
+                    const mxc = await client.uploadContent(encrypted.buffer);
+
+                    await client.sendMessage(room, {
+                        msgtype: "m.image",
+                        body: filename,
+                        info: {
+                            mimetype: "image/png"
+                        },
+                        file: {
+                            url: mxc,
+                            ...encrypted.file,
+                        },
                     });
                 } else {
                     client.sendText(room, 'Something went wrong generating the image.');

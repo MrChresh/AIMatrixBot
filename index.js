@@ -24,8 +24,6 @@ AutojoinRoomsMixin.setupOnClient(matrixClient);
 
 matrixClient.on('room.message', (roomId, event) => {
     try {
-
-        console.log(event)
         if (event.content.msgtype != 'm.text') {
             return;
         }
