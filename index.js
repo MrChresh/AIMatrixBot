@@ -31,7 +31,7 @@ matrixClient.on('room.message', (roomId, event) => {
         if (event.sender != myUserId) {
             matrixClient.commands.forEach(async (textcommand) => {
 
-                if (event.content.body.startsWith(`$${textcommand.data.name}`)) {
+                if (event.content.body.startsWith(`$${textcommand.data.name} `)) {
                     console.log(textcommand);
 
                     var interaction = event;
