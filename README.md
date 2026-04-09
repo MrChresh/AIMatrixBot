@@ -17,6 +17,7 @@ This Matrix bot integrates with the [ollama-mcp-bridge](https://github.com/jonig
 - Chat history per user
 - Cancel command
 - In development MCP-bridge available: [llamacppMCPBridge](https://github.com/MrChresh/llamacppMCPBridge)
+- Image generation/edit command with [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) (You will need to rename the aiimg.1js to aiimg.js and most likely edit the according js in classes. It's self explanatory and contains instructions.)
 
 ## Prerequisites
 
