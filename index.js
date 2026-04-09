@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import url from 'url';
+import { queue } from './classes/queue.js'
 
 import {
     MatrixClient, AutojoinRoomsMixin, LogService,
@@ -27,7 +28,6 @@ matrixClient.on('room.message', (roomId, event) => {
         if (event.content.msgtype != 'm.text') {
             return;
         }
-        console.log(roomId);
         if (event.sender != myUserId) {
             matrixClient.commands.forEach(async (textcommand) => {
 
@@ -37,6 +37,7 @@ matrixClient.on('room.message', (roomId, event) => {
                     var interaction = event;
                     interaction.client = matrixClient;
                     interaction.room = roomId;
+                    interaction.commandName = textcommand.data.name;
                     textcommand.execute(interaction);
                 }
             });
@@ -83,6 +84,7 @@ matrixClient.start().then(async () => {
     }
     matrixClient.AIBot.Messages = [];
     matrixClient.AIBot.requests = [];
+    matrixClient.queue = new queue;
 
     // Grab all the command folders from the commands directory you created earlier
     const foldersPath = path.join(globaldirname, 'commands');

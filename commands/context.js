@@ -10,10 +10,7 @@ export default {
         if (!client.AIBot.allowedUsers.includes(interaction.sender)) {
             return client.sendText(interaction.room, 'You dont have access to this bot.');
         }
-        const messageAuthor = interaction.sender;
-        const room = interaction.room;
-
-        client.AIBot.Messages[messageAuthor] = null;
-        return client.sendText(room, 'Context has been cleared');
+        client.sendText(interaction.room, 'Your command has been queued.');
+        return client.queue.add(interaction);
     }
 }

@@ -1,6 +1,7 @@
 import 'dotenv/config'
-import * as fs from 'fs';
-import * as child_process from 'child_process';
+import fs from 'node:fs'
+import child_process from 'child_process';
+
 /*
 You will need to edit this file except you have the exact same setup.
 For this setup you will need a graphics card with 16Gb VRAM.
@@ -22,23 +23,16 @@ MAX_IMAGE_STEPS=50
 PATH_TO_SD_CLI=C:/sdcpp
 PATH_TO_IMAGES=C:/sdcpp/images
 */
-export default {
-    data: {
-        name: 'img',
-        description: 'Prompts the ai for an image'
-    },
-    execute: async (interaction) => {
+export class aiimg {
+async execute(interaction) {
         const client = interaction.client;
-        if (!client.AIBot.allowedUsers.includes(interaction.sender)) {
-            return client.sendText(interaction.room, 'You dont have access to this bot.');
-        }
         const width = Number(process.env.DEFAULT_IMAGE_WIDTH);
         const height = Number(process.env.DEFAULT_IMAGE_HEIGHT);
         const steps = Number(process.env.DEFAULT_IMAGE_STEPS);
 
         //const messageAuthor = interaction.sender;
         const room = interaction.room;
-        var prompt = interaction.content.body.slice(4);
+        var prompt = interaction.content.body.slice(6);
         const negativePrompt = '';
 
         try {
@@ -110,7 +104,7 @@ export default {
                 } else {
                     client.sendText(room, 'Something went wrong generating the image.');
                 }
-
+                client.queue.queue.shift();
             });
 
         } catch (e) {
