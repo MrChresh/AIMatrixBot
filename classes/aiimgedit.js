@@ -111,7 +111,7 @@ export class aiimgedit {
 
 
             var prcParams = [
-                '--diffusion-model', process.env.PATH_TO_SD_CLI + '/' + 'qwen-image-edit-2511-Q4_K_M.gguf',
+                '--diffusion-model', process.env.PATH_TO_SD_CLI + '/' + 'qwen-image-edit-2511-Q3_K_L.gguf',
                 '--vae', process.env.PATH_TO_SD_CLI + '/' + 'qwen_image_vae.safetensors',
                 '--llm', process.env.PATH_TO_SD_CLI + '/' + 'Qwen2.5-VL-7B-Instruct-abliterated.f16.gguf',
                 '-p', prompt,

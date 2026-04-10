@@ -41,7 +41,7 @@ async execute(interaction) {
             const requestId = String(Date.now().toString(36));
 
             var prc = child_process.spawn(process.env.PATH_TO_SD_CLI + '/sd-cli.exe', [
-                '--diffusion-model', process.env.PATH_TO_SD_CLI + '/' + 'qwen-image-2512-Q4_K_M.gguf',
+                '--diffusion-model', process.env.PATH_TO_SD_CLI + '/' + 'qwen-image-2512-Q3_K_M.gguf',
                 '--vae', process.env.PATH_TO_SD_CLI + '/' + 'qwen_image_vae.safetensors',
                 '--llm', process.env.PATH_TO_SD_CLI + '/' + 'Qwen2.5-VL-7B-Instruct-abliterated.f16.gguf',
                 '-p', prompt,
