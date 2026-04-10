@@ -178,10 +178,8 @@ export class ai {
                         content: fullAssistantMessage
                     });
                     client.sendText(room, res.statusCode + ' No more data in response.');
-                    return client.queue.queue.shift();
-                });
-                res.on('finish', () => {
                     client.AIBot.requests[messageAuthor].splice(client.AIBot.requests[messageAuthor].indexOf(requestId));
+                    return client.queue.queue.shift();
                 });
             });
 

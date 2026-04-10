@@ -57,7 +57,7 @@ MATRIX_USER_ID='@bot:matrix.chresh.de'
 OLLAMA_PORT=11000
 
 # Ollama Model to use
-OLLAMA_MODEL='qwen3.5:35b'
+OLLAMA_MODEL='huihui_ai/gemma-4-abliterated:31b'
 
 # Whether to enable the think parameter
 OLLAMA_THINK=true
